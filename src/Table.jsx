@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Table() {
     // get data on trains for table
-    const url = "http://localhost:1337/delayed";
+    const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
 
     const [result, setData] = useState([]);
 
