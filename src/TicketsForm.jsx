@@ -5,10 +5,12 @@ import { useLocation } from "react-router-dom";
 
         const location = useLocation()
         const train = location.state?.data
-        const url = "http://localhost:1337/codes";
+        let newTicketId = 0;
+        const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
 
         let options = []
         const [result, setData] = useState([])
+        const [ticketCount, setTicket] = useState([])
 
         const fetchInfo = () => { 
             return fetch(url) 
@@ -33,16 +35,31 @@ import { useLocation } from "react-router-dom";
             setSelectedOption(event.target.value);
         }
 
+        const ticketInfo = () => {
+            return fetch("https://jsramverk-trains-meda23.azurewebsites.net/tickets")
+                    .then((response) => response.json()) 
+                    .then((d) => setTicket(d.data)) 
+            }
+            useEffect(() => {
+                ticketInfo();
+            }, []);
+
+                    var lastId = ticketCount[1] ? ticketCount[1].id : 0;
+                    console.log(ticketCount)
+                    console.log(lastId)
+                    newTicketId = lastId + 1;
+
         var newTicket = {
+            id: newTicketId,
             code: selectedOption,
             trainnumber: train.OperationalTrainNumber,
             traindate: train.EstimatedTimeAtLocation.substring(0, 10),
         }
-        console.log(newTicket)
+        console.log(newTicketId)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-            fetch("http://localhost:1337/tickets", {
+            fetch("https://jsramverk-trains-meda23.azurewebsites.net/tickets", {
                 body: JSON.stringify(newTicket),
                 headers: {
                     "content-Type": "application/json"
@@ -57,14 +74,14 @@ import { useLocation } from "react-router-dom";
 
     return (
         <form action="/tickets" onSubmit={handleSubmit}>
-            <h1>New ticket for train: {train.OperationalTrainNumber}</h1>
+            <h1>New ticket (#{newTicketId +1}) for train: {train.OperationalTrainNumber}</h1>
             <h2> From {train.FromLocation ? train.FromLocation[0].LocationName : ""} to {train.ToLocation ? train.ToLocation[0].LocationName : ""}. Right now in {train.LocationSignature}. </h2>
                 <div className="pt-0 mb-3">
             <select value={selectedOption} onChange={handleDropdownChange}
             required>
                 <option value="first-option">Choose an error code</option>
                 {options.map((option) => (
-                <option value={option.value}>{option.label}</option>
+                <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
             </select>
         </div>

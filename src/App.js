@@ -13,12 +13,14 @@ const App = () => {
 
     return (
     <div>
+        <h1>Hello</h1>
         <Button onClick={handleOpen}>Open</Button>
         <Button onClick={handleClose}>Close</Button>
 
         {isOpen && <div>Toggle is on</div>}
         {!isOpen && <div>Toggle is off</div>}
       </div>
+      
     );
 };
 
