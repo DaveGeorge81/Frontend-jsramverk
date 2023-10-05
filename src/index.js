@@ -11,7 +11,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="/~dadh22/editor/">
           <Routes>
         <Route path="/ticket" element={<div className="tickets"><TicketsForm /><Tickets /></div>} />
         <Route path="/tickets" element={<div className="tickets"><Tickets /></div>} />

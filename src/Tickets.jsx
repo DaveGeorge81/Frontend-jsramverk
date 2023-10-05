@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Tickets = () => {
 
@@ -17,7 +18,7 @@ const Tickets = () => {
         }, [])
         return (
             <div>
-                <a href="/"><button id="1">Back to map</button></a>
+                <Link to="/"><button id="1">Back to map</button></Link>
                 <h1>Current tickets:</h1>
                     {result.map((ticket) => {
                         return (
