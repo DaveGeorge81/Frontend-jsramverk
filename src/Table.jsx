@@ -6,19 +6,31 @@ export default function Table() {
     // get data on trains for table
     const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
 
-    const [result, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [result, setResult] = useState([]);
 
-    const fetchInfo = () => { 
-        return fetch(url) 
-                .then((response) => response.json()) 
-                .then((d) => setData(d.data)) 
-        }
-        useEffect(() => {
-            fetchInfo();
-        }, []);
+    useEffect(() => {
+        setLoading(true);
+        fetch(url)
+            .then(response => response.json())
+            .then(data => setResult(data.data))
+        setLoading(false)
+    }, [])
+
+    // const [result, setData] = useState([]);
+
+    // const fetchInfo = () => { 
+    //     return fetch(url) 
+    //             .then((response) => response.json()) 
+    //             .then((d) => setData(d.data)) 
+    //     }
+    //     useEffect(() => {
+    //         fetchInfo();
+    //     }, []);
 
         return (
                 <div className="styled-table">
+                    {loading ? 'Loading...' : (
                     <table>
                         <tbody>
                         <tr>
@@ -39,6 +51,7 @@ export default function Table() {
                         })}
                         </tbody>
                     </table>
+                    )}
                 </div>
             );
         }
