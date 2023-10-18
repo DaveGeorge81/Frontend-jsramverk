@@ -5,8 +5,8 @@ const URL = config.url;
 
     const TicketsForm = () => {
 
-        const location = useLocation()
-        const train = location.state?.data
+        const location = useLocation();
+        const train = location.state?.data;
         let newTicketId = 0;
         // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
         const url = `${URL}/codes`;
@@ -39,7 +39,7 @@ const URL = config.url;
         }
 
         const ticketInfo = () => {
-            return fetch(`${URL}/ticekts`)
+            return fetch(`${URL}/tickets`)
                     .then((response) => response.json()) 
                     .then((d) => setTicket(d.data)) 
             }
