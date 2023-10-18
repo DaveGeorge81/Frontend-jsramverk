@@ -47,7 +47,7 @@ const URL = config.url;
                 ticketInfo();
             }, []);
 
-                    var lastId = ticketCount[1] ? ticketCount[1].id : 0;
+                    var lastId = ticketCount.length;
                     console.log(ticketCount)
                     console.log(lastId)
                     newTicketId = lastId + 1;
@@ -76,8 +76,8 @@ const URL = config.url;
     }
 
     return (
-        <form action="/tickets" onSubmit={handleSubmit}>
-            <h1>New ticket (#{newTicketId +1}) for train: {train.OperationalTrainNumber}</h1>
+        <form action="/~dadh22/editor/" onSubmit={handleSubmit}>
+            <h1>New ticket (#{newTicketId}) for train: {train.OperationalTrainNumber}</h1>
             <h2> From {train.FromLocation ? train.FromLocation[0].LocationName : ""} to {train.ToLocation ? train.ToLocation[0].LocationName : ""}. Right now in {train.LocationSignature}. </h2>
                 <div className="pt-0 mb-3">
             <select value={selectedOption} onChange={handleDropdownChange}
