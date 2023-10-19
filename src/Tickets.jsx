@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { config } from './Constants';
+
+const URL = config.url;
 
 const Tickets = () => {
 
-    const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
-
+    // const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
+    const url = `${URL}/tickets`;
     
-    const [result, setData] = useState([])
+    const [result, setData] = useState([]);
     
     const fetchInfo = () => { 
         return fetch(url) 

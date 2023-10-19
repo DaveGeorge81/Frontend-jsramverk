@@ -1,37 +1,17 @@
 import * as React from 'react';
+import { useState } from 'react';
+import MapComponent from './Maps.jsx';
+import Table from './Table.jsx';
 
 const App = () => {
-    const [isOpen, setOpen] = React.useState(false);
+  const [oneMarker, setOneMarker] = useState(null);
 
-    const handleOpen = () => {
-      setOpen(true);
-    };
-
-    const handleClose = () => {
-      setOpen(false);
-    };
-
-    return (
-    <div>
-        <h1>Hello</h1>
-        <Button onClick={handleOpen}>Open</Button>
-        <Button onClick={handleClose}>Close</Button>
-
-        {isOpen && <div>Toggle is on</div>}
-        {!isOpen && <div>Toggle is off</div>}
-      </div>
-      
-    );
-};
-
-const Button = ({ onClick, children }) => {
   return (
-    <button type="button" onClick={onClick}>
-      {children}
-    </button>
+    <>
+      <MapComponent oneMarker={oneMarker}/>
+      <Table setOneMarker={setOneMarker}/>
+    </>
   );
 };
-
-
 
 export default App;

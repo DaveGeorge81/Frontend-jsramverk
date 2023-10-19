@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { config } from './Constants';
+const URL = config.url;
 
     const TicketsForm = () => {
 
-        const location = useLocation()
-        const train = location.state?.data
+        const location = useLocation();
+        const train = location.state?.data;
         let newTicketId = 0;
-        const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
+        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
+        const url = `${URL}/codes`;
 
         let options = []
         const [result, setData] = useState([])
@@ -36,7 +39,7 @@ import { useLocation } from "react-router-dom";
         }
 
         const ticketInfo = () => {
-            return fetch("https://jsramverk-trains-meda23.azurewebsites.net/tickets")
+            return fetch(`${URL}/tickets`)
                     .then((response) => response.json()) 
                     .then((d) => setTicket(d.data)) 
             }
@@ -59,7 +62,7 @@ import { useLocation } from "react-router-dom";
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-            fetch("https://jsramverk-trains-meda23.azurewebsites.net/tickets", {
+            fetch(`${URL}/tickets`, {
                 body: JSON.stringify(newTicket),
                 headers: {
                     "content-Type": "application/json"
