@@ -5,15 +5,18 @@ import './index.css';
 import App from './App.js';
 import TicketsForm from './TicketsForm.jsx';
 import Tickets from './Tickets.jsx'
+import EditTicket from './EditTicket.jsx';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+        {/* <BrowserRouter basename="/~dadh22/editor/"> */}
         <BrowserRouter>
           <Routes>
         <Route path="/ticket" element={<div className="tickets"><TicketsForm /><Tickets /></div>} />
         <Route path="/tickets" element={<div className="tickets"><Tickets /></div>} />
+      <Route path="/edit" element={<div className="tickets"><EditTicket /></div>} />
         <Route path="/" element={<div className="side-by-side"><App></App></div>} />
     </Routes>
     </BrowserRouter>

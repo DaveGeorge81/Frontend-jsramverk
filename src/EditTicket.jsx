@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { config } from './Constants';
-const URL = config.url;
 
-    const TicketsForm = () => {
-
+    const EditTicket = () => {
 
         // const endpoint = "http://localhost:1337/graphql/";
         const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
 
         const location = useLocation()
-        const train = location.state?.data
-        let newTicketId = 0;
+        const ticketData = location.state?.ticket
+
         // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-
-
-        const url = `${URL}/codes`;
-
 
         let options = []
         const [result, setData] = useState([])
-        const [ticketCount, setTicket] = useState([])
 
         const fetchInfo = () => {
             const codesQuery = `{ Codes {
@@ -44,7 +36,7 @@ const URL = config.url;
             useEffect(() => {
                 fetchInfo();
             }, []);
-console.log(result)
+// console.log(result)
             result.map((code) => {
                 options.push({
                     label: `${code.Code} - ${code.Level3Description}`,
@@ -59,41 +51,11 @@ console.log(result)
             setSelectedOption(event.target.value);
         }
 
-        const ticketInfo = () => {
-
-            const queryTickets = `{ Tickets {
-                id,
-                code,
-                trainnumber,
-                traindate }
-                }`;
-            return fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({ query: queryTickets })
-            })
-                .then((response) => response.json())
-                .then(d => setTicket(d.data.Tickets)
-                )
-
-            }
-            useEffect(() => {
-                ticketInfo();
-            }, []);
-
-                    var lastId = ticketCount.length;
-                    console.log(ticketCount)
-                    console.log(lastId)
-                    newTicketId = lastId + 1;
-
-        var newTicket = `mutation{addTicket(
-            id: ${newTicketId},
+        var updateTicket = `mutation{updateTicket(
+            id: ${ticketData.id},
             code: "${selectedOption}",
-            trainnumber: "${train.OperationalTrainNumber}",
-            traindate: "${train.EstimatedTimeAtLocation.substring(0, 10)}"
+            trainnumber: "${ticketData.trainnumber}",
+            traindate: "${ticketData.traindate}"
             ){
                 id
                 code
@@ -101,14 +63,12 @@ console.log(result)
                 traindate
             }}`;
 
-        console.log(newTicketId)
+        // console.log(updateTicket)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-
             fetch(endpoint, {
-                body: JSON.stringify({ query: newTicket }),
-
+                body: JSON.stringify({ query: updateTicket }),
                 headers: {
                     "content-Type": "application/json"
                 },
@@ -122,8 +82,8 @@ console.log(result)
 
     return (
         <form action="/tickets" onSubmit={handleSubmit}>
-            <h1>New ticket (#{newTicketId}) for train: {train.OperationalTrainNumber}</h1>
-            <h2> From {train.FromLocation ? train.FromLocation[0].LocationName : ""} to {train.ToLocation ? train.ToLocation[0].LocationName : ""}. Right now in {train.LocationSignature}. </h2>
+            <h1>Update (#{ticketData.id}) for train: {ticketData.trainnumber}</h1>
+            <h2>Please select new error code:</h2>
                 <div className="pt-0 mb-3">
             <select value={selectedOption} onChange={handleDropdownChange}
             required>
@@ -138,11 +98,11 @@ console.log(result)
                 className="active:bg-blue-600 hover:shadow-lg focus:outline-none px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-blue-500 rounded shadow outline-none"
                 type="submit"
             >
-                Commit new ticket
+                update ticket
             </button>
             </div>
         </form>
     );
     };
 
-    export default TicketsForm;
+    export default EditTicket;

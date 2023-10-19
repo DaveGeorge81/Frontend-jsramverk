@@ -11,17 +11,36 @@ let listRes;
 export default function Table({setOneMarker}) {
     // get data on trains for table
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
+
+    const endpoint = "http://localhost:1337/graphql/";
+
+    const queryData = `{ Delays {
+        OperationalTrainNumber, 
+        LocationSignature, 
+        FromLocation { LocationName }, 
+        ToLocation { LocationName }, 
+        AdvertisedTimeAtLocation, 
+        EstimatedTimeAtLocation } }`;
+  
     const url = `${URL}/delayed`;
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState([]);
     const [listitems, setListitems] = useState([]);
 
+
     useEffect(() => {
         setLoading(true);
-        fetch(url)
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ query: queryData })
+        })
             .then(response => response.json())
-            .then(data => setResult(data.data))
+            .then(data => setResult(data.data.Delays))
         setLoading(false)
     }, [url])
 
