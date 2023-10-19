@@ -4,16 +4,31 @@ import { Link } from "react-router-dom";
 
 export default function Table() {
     // get data on trains for table
-    const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
+    // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
+    const endpoint = "http://localhost:1337/graphql/";
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState([]);
+    const queryData = `{ Delays {
+        OperationalTrainNumber, 
+        LocationSignature, 
+        FromLocation { LocationName }, 
+        ToLocation { LocationName }, 
+        AdvertisedTimeAtLocation, 
+        EstimatedTimeAtLocation } }`;
 
     useEffect(() => {
         setLoading(true);
-        fetch(url)
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ query: queryData })
+        })
             .then(response => response.json())
-            .then(data => setResult(data.data))
+            .then(data => setResult(data.data.Delays))
         setLoading(false)
     }, [])
 

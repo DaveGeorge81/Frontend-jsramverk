@@ -6,16 +6,20 @@ import MapComponent from './Maps.jsx';
 import Table from './Table.jsx';
 import TicketsForm from './TicketsForm.jsx';
 import Tickets from './Tickets.jsx'
+import EditTicket from './EditTicket.jsx';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-        <BrowserRouter basename="/~dadh22/editor/">
+        {/* <BrowserRouter basename="/~dadh22/editor/"> */}
+        <BrowserRouter>
           <Routes>
         <Route path="/ticket" element={<div className="tickets"><TicketsForm /><Tickets /></div>} />
         <Route path="/tickets" element={<div className="tickets"><Tickets /></div>} />
-        <Route path="/" element={<div className="side-by-side"><MapComponent /><Table /></div>} />
+        <Route path="/" element={<div className="side-by-side"><MapComponent /><Table /></div>
+      } />
+      <Route path="/edit" element={<div className="tickets"><EditTicket /></div>} />
     </Routes>
     </BrowserRouter>
   </React.StrictMode>
