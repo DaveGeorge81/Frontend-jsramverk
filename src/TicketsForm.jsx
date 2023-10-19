@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { config } from './Constants';
+const URL = config.url;
 
     const TicketsForm = () => {
+
 
         // const endpoint = "http://localhost:1337/graphql/";
         const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
@@ -10,6 +13,10 @@ import { useLocation } from "react-router-dom";
         const train = location.state?.data
         let newTicketId = 0;
         // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
+
+
+        const url = `${URL}/codes`;
+
 
         let options = []
         const [result, setData] = useState([])
@@ -53,6 +60,7 @@ console.log(result)
         }
 
         const ticketInfo = () => {
+
             const queryTickets = `{ Tickets {
                 id,
                 code,
@@ -70,6 +78,7 @@ console.log(result)
                 .then((response) => response.json())
                 .then(d => setTicket(d.data.Tickets)
                 )
+
             }
             useEffect(() => {
                 ticketInfo();
@@ -96,8 +105,10 @@ console.log(result)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
+
             fetch(endpoint, {
                 body: JSON.stringify({ query: newTicket }),
+
                 headers: {
                     "content-Type": "application/json"
                 },

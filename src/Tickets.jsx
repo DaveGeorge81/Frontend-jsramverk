@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { config } from './Constants';
+
 
 const edit = require("./img/edit_icon.png")
 
@@ -16,6 +18,13 @@ const Tickets = () => {
                         trainnumber,
                         traindate }
                         }`;
+  
+const URL = config.url;
+
+
+    // const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
+    const url = `${URL}/tickets`;
+    
     
     const fetchInfo = () => { 
         return fetch(endpoint, {
