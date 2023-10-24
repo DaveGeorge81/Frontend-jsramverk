@@ -117,7 +117,7 @@ const MapComponent = (oneMarker) => {
 
     if (oneMarker.oneMarker !== null) {
         for (let i = 0; i < markers.length; i++) {
-            if(markers[i].trainnumber === oneMarker.oneMarker) {
+            if(String(markers[i].trainnumber) === String(oneMarker.oneMarker)) {
                 let index = markers.indexOf(i);
 
                 return (
