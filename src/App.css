@@ -82,3 +82,11 @@
   text-decoration: none;
   color: #282c34;
 }
+
+.unlocked {
+  color: #009879;
+}
+
+.locked {
+  color: chocolate;
+}
