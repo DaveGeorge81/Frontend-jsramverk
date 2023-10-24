@@ -11,29 +11,65 @@ function getApikey() {
     return sessionStorage.getItem('apikey');
 }
 
+
     const TicketsForm = () => {
         let apiKey = getApikey();
         let token = getToken();
-        console.log("token i ticketsForm: ", token )
         const location = useLocation();
         const train = location.state?.data;
         let newTicketId = 0;
         // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-        const url = `${URL}/codes?api_key=${apiKey}`;
+//         const url = `${URL}/codes?api_key=${apiKey}`;
+
+
+        // const endpoint = `http://localhost:1337/graphql?api_key=${apiKey}`;
+        const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+
+//         const location = useLocation()
+//         const train = location.state?.data
+//         let newTicketId = 0;
+        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
+
+
+//         const url = `${URL}/codes`;
+
+
 
         let options = []
         const [result, setData] = useState([])
         const [ticketCount, setTicket] = useState([])
 
-        const fetchInfo = () => { 
-            return fetch(url, { headers: { 'x-access-token': token } }) 
-                    .then((response) => response.json()) 
-                    .then((d) => setData(d.data)) 
+
+//         const fetchInfo = () => { 
+//             return fetch(url, { headers: { 'x-access-token': token } }) 
+//                     .then((response) => response.json()) 
+//                     .then((d) => setData(d.data)) 
+
+        const fetchInfo = () => {
+            const codesQuery = `{ Codes {
+                Code,
+                Level1Description,
+                Level2Description,
+                Level3Description
+            }}`;
+            return fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                  'x-access-token': token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ query: codesQuery })
+            })
+                .then((response) => response.json())
+                .then(d => setData(d.data.Codes)
+                )
+
             }
             useEffect(() => {
                 fetchInfo();
             }, []);
-
+console.log(result)
             result.map((code) => {
                 options.push({
                     label: `${code.Code} - ${code.Level3Description}`,
@@ -49,9 +85,32 @@ function getApikey() {
         }
 
         const ticketInfo = () => {
-            return fetch(`${URL}/tickets?api_key=${apiKey}`, { headers: { 'x-access-token': token } })
-                    .then((response) => response.json()) 
-                    .then((d) => setTicket(d.data)) 
+
+//             return fetch(`${URL}/tickets?api_key=${apiKey}`, { headers: { 'x-access-token': token } })
+//                     .then((response) => response.json()) 
+//                     .then((d) => setTicket(d.data)) 
+
+
+            const queryTickets = `{ Tickets {
+                id,
+                code,
+                trainnumber,
+                traindate }
+                }`;
+            return fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ query: queryTickets })
+            })
+                .then((response) => response.json())
+                .then(d => setTicket(d.data.Tickets)
+                )
+
+
             }
             useEffect(() => {
                 ticketInfo();
@@ -62,18 +121,31 @@ function getApikey() {
                     console.log(lastId)
                     newTicketId = lastId + 1;
 
-        var newTicket = {
-            id: newTicketId,
-            code: selectedOption,
-            trainnumber: train.OperationalTrainNumber,
-            traindate: train.EstimatedTimeAtLocation.substring(0, 10),
-        }
+        var newTicket = `mutation{addTicket(
+            id: ${newTicketId},
+            code: "${selectedOption}",
+            trainnumber: "${train.OperationalTrainNumber}",
+            traindate: "${train.EstimatedTimeAtLocation.substring(0, 10)}"
+            ){
+                id
+                code
+                trainnumber
+                traindate
+            }}`;
+
         console.log(newTicketId)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-            fetch(`${URL}/tickets?api_key=${apiKey}`, {
-                body: JSON.stringify(newTicket),
+
+//             fetch(`${URL}/tickets?api_key=${apiKey}`, {
+//                 body: JSON.stringify(newTicket),
+
+
+            fetch(endpoint, {
+                body: JSON.stringify({ query: newTicket }),
+
+
                 headers: {
                     "content-Type": "application/json",
                     'x-access-token': token
@@ -87,7 +159,7 @@ function getApikey() {
     }
 
     return (
-        <form action="/~dadh22/editor/" onSubmit={handleSubmit}>
+        <form action="/tickets" onSubmit={handleSubmit}>
             <h1>New ticket (#{newTicketId}) for train: {train.OperationalTrainNumber}</h1>
             <h2> From {train.FromLocation ? train.FromLocation[0].LocationName : ""} to {train.ToLocation ? train.ToLocation[0].LocationName : ""}. Right now in {train.LocationSignature}. </h2>
                 <div className="pt-0 mb-3">
@@ -112,4 +184,3 @@ function getApikey() {
     };
 
     export default TicketsForm;
-

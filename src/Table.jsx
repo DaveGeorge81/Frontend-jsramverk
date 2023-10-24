@@ -21,19 +21,47 @@ export default function Table({setOneMarker}) {
     let token = getToken();
     // get data on trains for table
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
-    const url = `${URL}/delayed?api_key=${apiKey}`;
+
+//     const url = `${URL}/delayed?api_key=${apiKey}`;
+
+    //const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
+    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+
+    const queryData = `{ Delays {
+        OperationalTrainNumber, 
+        LocationSignature, 
+        FromLocation { LocationName }, 
+        ToLocation { LocationName }, 
+        AdvertisedTimeAtLocation, 
+        EstimatedTimeAtLocation } }`;
+  
+//     const url = `${URL}/delayed`;
+//     const url = `${URL}/delayed?api_key=${apiKey}`;
+
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState([]);
     const [listitems, setListitems] = useState([]);
 
+
     useEffect(() => {
         setLoading(true);
-        fetch(url, {headers: {'x-access-token': token}})
+
+//         fetch(url, {headers: {'x-access-token': token}})
+
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'x-access-token': token, // added token here to try
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ query: queryData })
+        })
             .then(response => response.json())
-            .then(data => setResult(data.data))
+            .then(data => setResult(data.data.Delays))
         setLoading(false)
-    }, [url, token])
+    }, [token])
 
     // const [result, setData] = useState([]);
 
