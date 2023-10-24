@@ -7,7 +7,7 @@ const URL = config.url;
 
 
         // const endpoint = "http://localhost:1337/graphql/";
-        const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
+        const endpoint = `${URL}/graphql`;
 
         const location = useLocation()
         const train = location.state?.data
@@ -44,7 +44,7 @@ const URL = config.url;
             useEffect(() => {
                 fetchInfo();
             }, []);
-console.log(result)
+// console.log(result)
             result.map((code) => {
                 options.push({
                     label: `${code.Code} - ${code.Level3Description}`,
@@ -85,8 +85,8 @@ console.log(result)
             }, []);
 
                     var lastId = ticketCount.length;
-                    console.log(ticketCount)
-                    console.log(lastId)
+                    // console.log(ticketCount)
+                    // console.log(lastId)
                     newTicketId = lastId + 1;
 
         var newTicket = `mutation{addTicket(
@@ -101,7 +101,7 @@ console.log(result)
                 traindate
             }}`;
 
-        console.log(newTicketId)
+        // console.log(newTicketId)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
