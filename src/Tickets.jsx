@@ -7,20 +7,32 @@ import { socket } from './socket';
 
 const edit = require("./img/edit_icon.png")
 
+
 let lockedTicket = { ticketId: 0 };
+
+function getToken() {
+    return sessionStorage.getItem('token');
+}
+
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
 
 
 const Tickets = () => {
+    let apiKey = getApikey();
+    let token = getToken();
+
+    // const endpoint = `http://localhost:1337/graphql/?api_key${apiKey}`;
+    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key${apiKey}`;
+
 
 const URL = config.url;
 
 const [ticketList, setTicketList] = useState([]);
 // const [currentTicket, setCurrent] = useState();
 
-const main = document.getElementById("root");
-let tList = document.createElement("div");
 
-main.appendChild(tList);
 // socket = io(URL);
 
 const Button = ({ onClick, children }) => {
