@@ -83,6 +83,15 @@
   color: #282c34;
 }
 
+
+.unlocked {
+  color: #009879;
+}
+
+.locked {
+  color: chocolate;
+}
+
 .login, .register {
   width: 20%;
   margin: 5em auto;
@@ -112,3 +121,4 @@ input {
 .frontLink {
   color: black;
 }
+

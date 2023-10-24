@@ -12,6 +12,10 @@ function getApikey() {
 }
 
 
+        // const endpoint = "http://localhost:1337/graphql/";
+        const endpoint = `${URL}/graphql?api_key=${apiKey}`;
+
+
     const TicketsForm = () => {
         let apiKey = getApikey();
         let token = getToken();
@@ -23,7 +27,7 @@ function getApikey() {
 
 
         // const endpoint = `http://localhost:1337/graphql?api_key=${apiKey}`;
-        const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+//         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
 //         const location = useLocation()
 //         const train = location.state?.data
@@ -69,7 +73,7 @@ function getApikey() {
             useEffect(() => {
                 fetchInfo();
             }, []);
-console.log(result)
+// console.log(result)
             result.map((code) => {
                 options.push({
                     label: `${code.Code} - ${code.Level3Description}`,
@@ -117,8 +121,8 @@ console.log(result)
             }, []);
 
                     var lastId = ticketCount.length;
-                    console.log(ticketCount)
-                    console.log(lastId)
+                    // console.log(ticketCount)
+                    // console.log(lastId)
                     newTicketId = lastId + 1;
 
         var newTicket = `mutation{addTicket(
@@ -133,7 +137,7 @@ console.log(result)
                 traindate
             }}`;
 
-        console.log(newTicketId)
+        // console.log(newTicketId)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {

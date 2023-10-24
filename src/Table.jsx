@@ -22,10 +22,9 @@ export default function Table({setOneMarker}) {
     // get data on trains for table
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
 
-//     const url = `${URL}/delayed?api_key=${apiKey}`;
 
-    //const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
-    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+    const endpoint = `${URL}/graphql?api_key=${apiKey}`;
+
 
     const queryData = `{ Delays {
         OperationalTrainNumber, 

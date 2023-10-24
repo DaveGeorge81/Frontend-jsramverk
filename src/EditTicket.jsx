@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { config } from './Constants';
+// import { socket } from './socket';
+// import { io } from 'socket.io-client';
+const URL = config.url;
+
+// const socket = io(URL);
 
     const EditTicket = () => {
 
         // const endpoint = "http://localhost:1337/graphql/";
-        const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
+        const endpoint = `${URL}/graphql`;
 
         const location = useLocation()
         const ticketData = location.state?.ticket
@@ -14,26 +20,28 @@ import { useLocation } from "react-router-dom";
         let options = []
         const [result, setData] = useState([])
 
-        const fetchInfo = () => {
-            const codesQuery = `{ Codes {
-                Code,
-                Level1Description,
-                Level2Description,
-                Level3Description
-            }}`;
-            return fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({ query: codesQuery })
-            })
-                .then((response) => response.json())
-                .then(d => setData(d.data.Codes)
-                )
-            }
+
             useEffect(() => {
+                const endpoint = `${URL}/graphql`;
+                const fetchInfo = () => {
+                    const codesQuery = `{ Codes {
+                        Code,
+                        Level1Description,
+                        Level2Description,
+                        Level3Description
+                    }}`;
+                    return fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ query: codesQuery })
+                    })
+                        .then((response) => response.json())
+                        .then(d => setData(d.data.Codes)
+                        )
+                    }
                 fetchInfo();
             }, []);
 // console.log(result)
