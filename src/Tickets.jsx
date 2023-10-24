@@ -4,15 +4,24 @@ import { config } from './Constants';
 
 const URL = config.url;
 
-const Tickets = () => {
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
+const Tickets = () => {
+    let apiKey = getApikey();
+    let token = getToken();
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
-    const url = `${URL}/tickets`;
+    const url = `${URL}/tickets?api_key${apiKey}`;
     
     const [result, setData] = useState([]);
     
     const fetchInfo = () => { 
-        return fetch(url) 
+        return fetch(url, {headers: {'x-access-token': token}})
                 .then((response) => response.json()) 
                 .then((d) => setData(d.data))
         }

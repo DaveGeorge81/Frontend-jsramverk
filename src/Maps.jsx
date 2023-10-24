@@ -10,6 +10,14 @@ import { config } from './Constants';
 
 const URL = config.url;
 
+function getToken() {
+    return sessionStorage.getItem('token');
+}
+
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
 Leaflet.Icon.Default.mergeOptions({
     iconRetinaUrl: markerRetina,
     iconUrl: markerIcon,
@@ -29,7 +37,9 @@ function getTrainNumbers(data) {
 }
 
 async function getDelayedTrains() {
-    const response = await fetch(`${URL}/delayed`);
+    let apiKey = getApikey();
+    let token = getToken();
+    const response = await fetch(`${URL}/delayed?api_key=${apiKey}`, {headers: {'x-access-token': token}});
     const data = await response.json();
     const trainData = getTrainNumbers(data.data);
 
@@ -84,8 +94,8 @@ const MapComponent = (oneMarker) => {
         }
     });
 
-    // console.log("antal markers ", markers)
-    // console.log(delayed)
+    console.log("antal markers ", markers)
+    console.log(delayed)
 
     if (oneMarker.oneMarker !== null) {
         for (let i = 0; i < markers.length; i++) {

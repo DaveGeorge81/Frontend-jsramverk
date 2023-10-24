@@ -3,20 +3,30 @@ import { useLocation } from "react-router-dom";
 import { config } from './Constants';
 const URL = config.url;
 
-    const TicketsForm = () => {
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
+    const TicketsForm = () => {
+        let apiKey = getApikey();
+        let token = getToken();
+        console.log("token i ticketsForm: ", token )
         const location = useLocation();
         const train = location.state?.data;
         let newTicketId = 0;
         // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-        const url = `${URL}/codes`;
+        const url = `${URL}/codes?api_key=${apiKey}`;
 
         let options = []
         const [result, setData] = useState([])
         const [ticketCount, setTicket] = useState([])
 
         const fetchInfo = () => { 
-            return fetch(url) 
+            return fetch(url, { headers: { 'x-access-token': token } }) 
                     .then((response) => response.json()) 
                     .then((d) => setData(d.data)) 
             }
@@ -39,7 +49,7 @@ const URL = config.url;
         }
 
         const ticketInfo = () => {
-            return fetch(`${URL}/tickets`)
+            return fetch(`${URL}/tickets?api_key=${apiKey}`, { headers: { 'x-access-token': token } })
                     .then((response) => response.json()) 
                     .then((d) => setTicket(d.data)) 
             }
@@ -62,10 +72,11 @@ const URL = config.url;
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-            fetch(`${URL}/tickets`, {
+            fetch(`${URL}/tickets?api_key=${apiKey}`, {
                 body: JSON.stringify(newTicket),
                 headers: {
-                    "content-Type": "application/json"
+                    "content-Type": "application/json",
+                    'x-access-token': token
                 },
                 method: "POST",
                 })

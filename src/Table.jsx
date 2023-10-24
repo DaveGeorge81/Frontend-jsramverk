@@ -8,10 +8,20 @@ let arr = [];
 let arrData = [];
 let listRes;
 
+function getToken() {
+    return sessionStorage.getItem('token');
+}
+
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
 export default function Table({setOneMarker}) {
+    let apiKey = getApikey();
+    let token = getToken();
     // get data on trains for table
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
-    const url = `${URL}/delayed`;
+    const url = `${URL}/delayed?api_key=${apiKey}`;
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState([]);
@@ -19,11 +29,11 @@ export default function Table({setOneMarker}) {
 
     useEffect(() => {
         setLoading(true);
-        fetch(url)
+        fetch(url, {headers: {'x-access-token': token}})
             .then(response => response.json())
             .then(data => setResult(data.data))
         setLoading(false)
-    }, [url])
+    }, [url, token])
 
     // const [result, setData] = useState([]);
 
