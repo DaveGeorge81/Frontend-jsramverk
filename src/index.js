@@ -33,14 +33,6 @@ root.render(
           <Route exact path='/register' element={<div className="register"><Register/></div>} />
           <Route exact path='/login' element={<div className="login"><Login/></div>}/>
         </Routes>
-
-
-//         <Route path="/ticket" element={<div className="tickets"><TicketsForm /><Tickets /></div>} />
-//         <Route path="/tickets" element={<div className="tickets"><Tickets /></div>} />
-//       <Route path="/edit" element={<div className="tickets"><EditTicket /></div>} />
-//         <Route path="/" element={<div className="side-by-side"><App></App></div>} />
-//     </Routes>
-
     </BrowserRouter>
   </React.StrictMode>
 

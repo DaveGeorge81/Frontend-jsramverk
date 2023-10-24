@@ -19,10 +19,6 @@ function getApikey() {
 export default function Table({setOneMarker}) {
     let apiKey = getApikey();
     let token = getToken();
-    // get data on trains for table
-    // const url = "https://jsramverk-trains-meda23.azurewebsites.net/delayed";
-
-
     const endpoint = `${URL}/graphql?api_key=${apiKey}`;
 
 
@@ -33,10 +29,6 @@ export default function Table({setOneMarker}) {
         ToLocation { LocationName }, 
         AdvertisedTimeAtLocation, 
         EstimatedTimeAtLocation } }`;
-  
-//     const url = `${URL}/delayed`;
-//     const url = `${URL}/delayed?api_key=${apiKey}`;
-
 
     const [loading, setLoading] = useState(true);
     const [result, setResult] = useState([]);
@@ -46,12 +38,10 @@ export default function Table({setOneMarker}) {
     useEffect(() => {
         setLoading(true);
 
-//         fetch(url, {headers: {'x-access-token': token}})
-
         fetch(endpoint, {
             method: 'POST',
             headers: {
-                'x-access-token': token, // added token here to try
+                'x-access-token': token,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },

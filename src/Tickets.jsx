@@ -18,13 +18,12 @@ function getApikey() {
     return sessionStorage.getItem('apikey');
 }
 
-
 const Tickets = () => {
     let apiKey = getApikey();
     let token = getToken();
 
-    // const endpoint = `http://localhost:1337/graphql/?api_key${apiKey}`;
-    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key${apiKey}`;
+    // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
+    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
 
 const URL = config.url;
@@ -58,6 +57,7 @@ useEffect(
         socket.connect();
         socket.on("allTickets", (data) => {
             setTicketList(data);
+
         })
         
         return () => {

@@ -7,22 +7,31 @@ const URL = config.url;
 
 // const socket = io(URL);
 
-    const EditTicket = () => {
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
-        // const endpoint = "http://localhost:1337/graphql/";
-        const endpoint = `${URL}/graphql`;
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
+
+    const EditTicket = () => {
+        let apiKey = getApikey();
+        let token = getToken();
+        // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
+//         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+
+        const endpoint = `${URL}/graphql?api_key=${apiKey}`;
+
 
         const location = useLocation()
         const ticketData = location.state?.ticket
-
-        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-
         let options = []
         const [result, setData] = useState([])
-
-
+        
             useEffect(() => {
-                const endpoint = `${URL}/graphql`;
+                const endpoint = `${URL}/graphql?api_key=${apiKey}`;
                 const fetchInfo = () => {
                     const codesQuery = `{ Codes {
                         Code,
@@ -33,6 +42,7 @@ const URL = config.url;
                     return fetch(endpoint, {
                         method: 'POST',
                         headers: {
+                            'x-access-token': token,
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
                         },
@@ -78,6 +88,7 @@ const URL = config.url;
             fetch(endpoint, {
                 body: JSON.stringify({ query: updateTicket }),
                 headers: {
+                    'x-access-token': token,
                     "content-Type": "application/json"
                 },
                 method: "POST",
