@@ -18,32 +18,12 @@ function getApikey() {
         const location = useLocation();
         const train = location.state?.data;
         let newTicketId = 0;
-        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-//         const url = `${URL}/codes?api_key=${apiKey}`;
-
-
         // const endpoint = `http://localhost:1337/graphql?api_key=${apiKey}`;
         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
-
-//         const location = useLocation()
-//         const train = location.state?.data
-//         let newTicketId = 0;
-        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-
-
-//         const url = `${URL}/codes`;
-
-
 
         let options = []
         const [result, setData] = useState([])
         const [ticketCount, setTicket] = useState([])
-
-
-//         const fetchInfo = () => { 
-//             return fetch(url, { headers: { 'x-access-token': token } }) 
-//                     .then((response) => response.json()) 
-//                     .then((d) => setData(d.data)) 
 
         const fetchInfo = () => {
             const codesQuery = `{ Codes {
@@ -55,7 +35,7 @@ function getApikey() {
             return fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                  'x-access-token': token,
+                    'x-access-token': token,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
@@ -85,12 +65,6 @@ console.log(result)
         }
 
         const ticketInfo = () => {
-
-//             return fetch(`${URL}/tickets?api_key=${apiKey}`, { headers: { 'x-access-token': token } })
-//                     .then((response) => response.json()) 
-//                     .then((d) => setTicket(d.data)) 
-
-
             const queryTickets = `{ Tickets {
                 id,
                 code,
@@ -137,11 +111,6 @@ console.log(result)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
-
-//             fetch(`${URL}/tickets?api_key=${apiKey}`, {
-//                 body: JSON.stringify(newTicket),
-
-
             fetch(endpoint, {
                 body: JSON.stringify({ query: newTicket }),
 

@@ -13,13 +13,12 @@ function getApikey() {
     return sessionStorage.getItem('apikey');
 }
 
-
 const Tickets = () => {
     let apiKey = getApikey();
     let token = getToken();
 
-    // const endpoint = `http://localhost:1337/graphql/?api_key${apiKey}`;
-    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key${apiKey}`;
+    // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
+    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
     const [result, setData] = useState([])
 
@@ -29,21 +28,8 @@ const Tickets = () => {
                         trainnumber,
                         traindate }
                         }`;
-  
-const URL = config.url;
 
-
-    // const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
-//     const url = `${URL}/tickets?api_key${apiKey}`;
-    
-    
     const fetchInfo = () => { 
-
-//         return fetch(url, {headers: {'x-access-token': token}})
-//                 .then((response) => response.json()) 
-//                 .then((d) => setData(d.data))
-//         }
-
         return fetch(endpoint, {
             method: 'POST',
             headers: {

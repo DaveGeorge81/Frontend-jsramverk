@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-    const EditTicket = () => {
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
-        // const endpoint = "http://localhost:1337/graphql/";
-        const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
+    const EditTicket = () => {
+        let apiKey = getApikey();
+        let token = getToken();
+        // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
+        const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
         const location = useLocation()
         const ticketData = location.state?.ticket
-
-        // const url = "https://jsramverk-trains-meda23.azurewebsites.net/codes";
-
         let options = []
         const [result, setData] = useState([])
 
@@ -24,6 +30,7 @@ import { useLocation } from "react-router-dom";
             return fetch(endpoint, {
                 method: 'POST',
                 headers: {
+                    'x-access-token': token,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                 },
@@ -70,6 +77,7 @@ import { useLocation } from "react-router-dom";
             fetch(endpoint, {
                 body: JSON.stringify({ query: updateTicket }),
                 headers: {
+                    'x-access-token': token,
                     "content-Type": "application/json"
                 },
                 method: "POST",
