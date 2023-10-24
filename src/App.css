@@ -82,3 +82,33 @@
   text-decoration: none;
   color: #282c34;
 }
+
+.login, .register {
+  width: 20%;
+  margin: 5em auto;
+  background-color: #009879;
+  padding: 3em 5em 5em;
+}
+
+input {
+  width: 90%;
+  padding: 0.5em;
+  margin: 0.5em auto;
+}
+
+.loginBtn, .registerBtn {
+  margin: 1em;
+  padding: 0.5em;
+  float: right;
+}
+
+.messages {
+  background-color: lightblue;
+  border: 1px solid darkblue;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+.frontLink {
+  color: black;
+}

@@ -5,10 +5,21 @@ import { config } from './Constants';
 
 const edit = require("./img/edit_icon.png")
 
-const Tickets = () => {
+function getToken() {
+    return sessionStorage.getItem('token');
+}
 
-    // const endpoint = "http://localhost:1337/graphql/";
-    const endpoint = "https://jsramverk-trains-meda23.azurewebsites.net/graphql";
+function getApikey() {
+    return sessionStorage.getItem('apikey');
+}
+
+
+const Tickets = () => {
+    let apiKey = getApikey();
+    let token = getToken();
+
+    // const endpoint = `http://localhost:1337/graphql/?api_key${apiKey}`;
+    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key${apiKey}`;
 
     const [result, setData] = useState([])
 
@@ -23,13 +34,20 @@ const URL = config.url;
 
 
     // const url = "https://jsramverk-trains-meda23.azurewebsites.net/tickets";
-    const url = `${URL}/tickets`;
+//     const url = `${URL}/tickets?api_key${apiKey}`;
     
     
     const fetchInfo = () => { 
+
+//         return fetch(url, {headers: {'x-access-token': token}})
+//                 .then((response) => response.json()) 
+//                 .then((d) => setData(d.data))
+//         }
+
         return fetch(endpoint, {
             method: 'POST',
             headers: {
+                'x-access-token': token,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
@@ -39,6 +57,7 @@ const URL = config.url;
             .then(d => setData(d.data.Tickets)
             )
     }
+
         useEffect(() => {
             fetchInfo();
         }, [])
