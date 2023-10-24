@@ -19,10 +19,8 @@ function getApikey() {
 export default function Table({setOneMarker}) {
     let apiKey = getApikey();
     let token = getToken();
-    // get data on trains for table
+    const endpoint = `${URL}/graphql?api_key=${apiKey}`;
 
-    // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
-    const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
     const queryData = `{ Delays {
         OperationalTrainNumber, 

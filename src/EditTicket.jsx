@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { config } from './Constants';
+// import { socket } from './socket';
+// import { io } from 'socket.io-client';
+const URL = config.url;
+
+// const socket = io(URL);
 
 function getToken() {
     return sessionStorage.getItem('token');
@@ -9,38 +15,43 @@ function getApikey() {
     return sessionStorage.getItem('apikey');
 }
 
+
     const EditTicket = () => {
         let apiKey = getApikey();
         let token = getToken();
         // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
-        const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+//         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+
+        const endpoint = `${URL}/graphql?api_key=${apiKey}`;
+
 
         const location = useLocation()
         const ticketData = location.state?.ticket
         let options = []
         const [result, setData] = useState([])
-
-        const fetchInfo = () => {
-            const codesQuery = `{ Codes {
-                Code,
-                Level1Description,
-                Level2Description,
-                Level3Description
-            }}`;
-            return fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'x-access-token': token,
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({ query: codesQuery })
-            })
-                .then((response) => response.json())
-                .then(d => setData(d.data.Codes)
-                )
-            }
+        
             useEffect(() => {
+                const endpoint = `${URL}/graphql?api_key=${apiKey}`;
+                const fetchInfo = () => {
+                    const codesQuery = `{ Codes {
+                        Code,
+                        Level1Description,
+                        Level2Description,
+                        Level3Description
+                    }}`;
+                    return fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'x-access-token': token,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({ query: codesQuery })
+                    })
+                        .then((response) => response.json())
+                        .then(d => setData(d.data.Codes)
+                        )
+                    }
                 fetchInfo();
             }, []);
 // console.log(result)

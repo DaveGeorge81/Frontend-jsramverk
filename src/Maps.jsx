@@ -64,6 +64,8 @@ const MapComponent = (oneMarker) => {
 
     const [delayed, setDelayed] = useState([]);
 
+    const [trains, setTrains] = useState([]);
+
     useEffect(() => {
         async function getDelayed() {
             const data = await getDelayedTrains();
@@ -73,26 +75,42 @@ const MapComponent = (oneMarker) => {
         getDelayed();
     }, []);
 
-    socket.on("message", (data) => {
-        if (delayed.includes(data.trainnumber)) {
-            if (markers.find(({trainnumber}) => trainnumber === `${data.trainnumber}`)) {
-                const index = markers.findIndex((marker) => marker.trainnumber === data.trainnumber);
 
-                allMarkers = [...markers];
-                allMarkers[index]= { ...allMarkers[index], position: data.position };
-                setMarkers(allMarkers);
+    useEffect(
+        () => {
+            socket.connect();
+            socket.on("message", (data) => {
+                setTrains(data);
+            })
+            
+            return () => {
+                socket.disconnect();
+            }
+            },
+            []
+        )
+
+        if (delayed.includes(trains.trainnumber)) {
+            if (markers.find(({trainnumber}) => trainnumber === `${trains.trainnumber}`)) {
+                const index = markers.findIndex((marker) => marker.trainnumber === trains.trainnumber);
+
+                // allMarkers = [...markers];
+                markers[index]= { ...markers[index], position: trains.position };
+                // setMarkers(allMarkers);
             } else {
-                allMarkers = [...markers];
+                // allMarkers = [...markers];
                 const marker = {
-                    position: data.position,
-                    trainnumber: data.trainnumber
+                    position: trains.position,
+                    trainnumber: trains.trainnumber
                 }
-
                 allMarkers.push(marker);
                 setMarkers(allMarkers);
             }
         }
-    });
+
+    // socket.on("message", (data) => {
+
+    // });
 
     console.log("antal markers ", markers)
     console.log(delayed)
