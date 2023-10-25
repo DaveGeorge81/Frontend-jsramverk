@@ -101,6 +101,7 @@ export default function Table({setOneMarker}) {
                             <th>Add ticket:</th>
                         </tr>
                         {listRes.map((data, index) => {
+                            if (data.FromLocation !== null) {
                             return (
                                 <tr key={index}>
                                     <td style={{width: "22vh"}}><Link onClick={() => setOneMarker(markerFunc(data.OperationalTrainNumber, data, arr, arrData))} className="link">{data.OperationalTrainNumber}</Link></td>
@@ -110,7 +111,7 @@ export default function Table({setOneMarker}) {
                                     <td style={{width: "20vh"}}><Link to="/ticket" state={{ data: data }} className="link">+</Link></td>
                                 </tr>
                             );
-                        })}
+                        }})}
                         </tbody>
                     </table>
                     )}
