@@ -11,10 +11,8 @@ function getApikey() {
     return sessionStorage.getItem('apikey');
 }
 
-
         // const endpoint = "http://localhost:1337/graphql/";
-        const endpoint = `${URL}/graphql?api_key=${apiKey}`;
-
+        // const endpoint = `${URL}/graphql?api_key=${apiKey}`;
 
     const TicketsForm = () => {
         let apiKey = getApikey();
@@ -24,6 +22,8 @@ function getApikey() {
         let newTicketId = 0;
         // const endpoint = `http://localhost:1337/graphql?api_key=${apiKey}`;
 //         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
+
+        const endpoint = `${URL}/graphql?api_key=${apiKey}`;
 
         let options = []
         const [result, setData] = useState([])
