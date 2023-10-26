@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { config } from './Constants';
-// import { socket } from './socket';
-// import { io } from 'socket.io-client';
-const URL = config.url;
 
-// const socket = io(URL);
+const URL = config.url;
 
 function getToken() {
     return sessionStorage.getItem('token');
@@ -19,8 +16,6 @@ function getApikey() {
     const EditTicket = () => {
         let apiKey = getApikey();
         let token = getToken();
-        // const endpoint = `http://localhost:1337/graphql/?api_key=${apiKey}`;
-//         const endpoint = `https://jsramverk-trains-meda23.azurewebsites.net/graphql?api_key=${apiKey}`;
 
         const endpoint = `${URL}/graphql?api_key=${apiKey}`;
 
@@ -29,8 +24,10 @@ function getApikey() {
         const ticketData = location.state?.ticket
         let options = []
         const [result, setData] = useState([])
-        
+
             useEffect(() => {
+                let apiKey = getApikey();
+                let token = getToken();
                 const endpoint = `${URL}/graphql?api_key=${apiKey}`;
                 const fetchInfo = () => {
                     const codesQuery = `{ Codes {
@@ -54,7 +51,7 @@ function getApikey() {
                     }
                 fetchInfo();
             }, []);
-// console.log(result)
+
             result.map((code) => {
                 options.push({
                     label: `${code.Code} - ${code.Level3Description}`,
@@ -81,7 +78,6 @@ function getApikey() {
                 traindate
             }}`;
 
-        // console.log(updateTicket)
 
     const handleSubmit = () => {
         if (selectedOption !== "first-option") {
