@@ -67,6 +67,9 @@ function getApikey() {
 
             useEffect(() => {
                 const ticketInfo = () => {
+                    let apiKey = getApikey();
+                    let token = getToken();
+                    const endpoint = `${URL}/graphql?api_key=${apiKey}`;
                     const queryTickets = `{ Tickets {
                         id,
                         code,
@@ -88,7 +91,7 @@ function getApikey() {
 
                     }
                 ticketInfo();
-            }, [endpoint, token]);
+            }, []);
 
                     var lastId = ticketCount.length;
                     // console.log(ticketCount)
