@@ -50,18 +50,7 @@ export default function Table({setOneMarker}) {
             .then(response => response.json())
             .then(data => setResult(data.data.Delays))
         setLoading(false)
-    }, [token])
-
-    // const [result, setData] = useState([]);
-
-    // const fetchInfo = () => { 
-    //     return fetch(url) 
-    //             .then((response) => response.json()) 
-    //             .then((d) => setData(d.data)) 
-    //     }
-    //     useEffect(() => {
-    //         fetchInfo();
-    //     }, []);
+    }, [token, endpoint, queryData])
 
     // Function to change to one marker and one list item, then back to all
     function markerFunc(dataNumber, data, arr, arrData) {
@@ -111,7 +100,9 @@ export default function Table({setOneMarker}) {
                                     <td style={{width: "20vh"}}><Link to="/ticket" state={{ data: data }} className="link">+</Link></td>
                                 </tr>
                             );
-                        }})}
+                        }
+                            return "";
+                        })}
                         </tbody>
                     </table>
                     )}
