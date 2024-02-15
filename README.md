@@ -20,7 +20,7 @@ Found 11 vulnerabilities in versions of:
 
 All fixed with "npm audit fix".
 
-Getting the app to work
+Getting the app to work:
 ---------------
 To get the application to work we had to:
 - Get an API key from Trafikverket's API
