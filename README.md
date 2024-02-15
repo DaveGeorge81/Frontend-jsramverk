@@ -23,7 +23,7 @@ All fixed with "npm audit fix".
 Getting the app to work
 ---------------
 To get the application to work we had to:
-- Get an API key from Trafikverket API
+- Get an API key from Trafikverket's API
 - Put the value of the API key as a variable in a .env file (backend repository)
 - Add the .env file to .gitignore for safety reasons
 - Run the reset_db.bash file
